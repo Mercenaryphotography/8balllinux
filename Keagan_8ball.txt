@@ -1,0 +1,97 @@
+#!/bin/bash
+# Keagan Leroux, December 1st 2024, Magic 8-Ball Bash Script.
+# Starting with a clear for a blank page 
+clear
+
+# ASCII art load
+cat /home/keagan/Bin/magic8.txt
+# Array of possible answers
+
+# Function to generate a random index
+get_random_index() {
+echo $(( RANDOM % 24 ))
+}
+
+# Main script
+
+echo "Welcome to the Magic 8-Ball!"
+echo
+echo "Ask a question, and I'll give you an answer."
+# Prompt for user input and sets $user 
+read -p "What is your name? " user
+echo
+echo
+
+# Array of Answers to pull from.
+answers=(
+# Good Responses ; 8
+"Should be alright" 
+"Just Do it" 
+"I don't know, yes?"
+"$user, I cannot lie...Yes"
+"I'd risk it"
+"If you have to $user....I guess" 
+"Totally $user. I believe it will"
+ "Outlook is great actually" 
+ # Neutral Responses ; 8
+ "What if we pretend you didn't ask me that?"
+ "Ask Keagan Leroux" 
+ "Why are you asking me?" 
+ "Outlook is fuzzy" 
+ "What exactly are we doing here $user? "
+ "Who's to say?"
+ "I'm too tired to tap into the mystic energies now"
+ "Akinator might know, I'm just an 8 Ball" 
+ # Negative Responeses ; 8
+ "Don't do it $user, too risky"
+ "Listen $user, if you're coming to me, you have bigger issues"
+ "I Don't think so, not this time."
+ "I'd hesisate on that, let it sit overnight"
+ "Don't over due it, maybe you should focus on you."
+ "No, Nope, Nein "
+ "I wouldn't count on it"
+ "Maybe your effort could be placed else where" )
+ 
+# Set a Loop
+while true
+do
+clear
+# 8 ball image - sourced https://www.asciiart.eu/sports-and-outdoors/billiards
+cat /home/keagan/Bin/billiard.txt
+echo
+read -p "Hey $user What is your question for the ball? " question
+
+# Generate a random index and retrieve the corresponding answer
+random_index=$(get_random_index)
+answer=${answers[$random_index]}
+
+if [ -z "$question" ] ; then
+echo "Please do not enter blank questions"
+# Displays Answer
+else 
+echo
+echo " Hey $user, thanks for that, your question of '$question' is a thinker give me a second"
+sleep 2
+echo
+echo " $answer "
+echo
+sleep 1
+fi
+# Insert second loop for Yes or No, This loop can also Exit from the program. 
+	while true 
+	do
+read -p "Would you like to continue? (Y/N) " choice
+	if [[ $choice = "N" ]] ; then
+	echo
+	echo "No Worries, We will see you around!" 
+	echo
+	exit
+	elif [[ $choice = "Y" ]] ; then 
+	echo
+	break
+	# This else condition will reject anything other then Y or N
+	else [ -f $choice ] 
+	echo "Use Y for yes or N for no please "	
+	fi
+	done	
+done
